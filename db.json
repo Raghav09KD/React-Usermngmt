@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "name": "Micheal",
+      "mobile": "7620841249",
+      "address": "302,Aditya kunj apt dhongade maala",
+      "password": "StrongPasswrod"
+    },
+    {
+      "name": "Raghav kishor Dholu",
+      "mobile": "7620841242",
+      "address": "032 asd",
+      "password": "ajsdgHASDHSGADHJ"
+    },
+    {
+      "name": "AGDHSAGDJASHDSASdgHS",
+      "mobile": "7620841234",
+      "address": "SADhkjDHKJDS",
+      "password": "SAJkhjkHJSKADas"
+    }
+  ]
+}
