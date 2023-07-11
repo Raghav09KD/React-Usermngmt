@@ -4,7 +4,6 @@ import CreateAccount from './CreateAccount';
 import ViewUsers from './ViewUsers';
 import { Route, Routes } from 'react-router-dom';
 
-import backgroundImage from '../assets/Backgroud-image.jpg';
 const App = () => {
   return (
     <div>

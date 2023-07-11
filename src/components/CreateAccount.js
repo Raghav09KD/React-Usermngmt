@@ -1,50 +1,27 @@
-import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Form, Input, Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function CreateAccount() {
   const navigate = useNavigate();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const onFinish = (values, event) => {
-    console.log('Received values:', values);
-
+  const onFinish = (values) => {
     axios
-      .get('http://localhost:3001/users') // Assuming users are stored in a 'users' endpoint
+      .post("http://localhost:5000/users", values)
       .then((response) => {
-        const users = response.data;
-
-        const duplicateContact = users.find((user) => user.name === values.name);
-        const duplicateMobileContact = users.find((user) => user.mobile === values.mobile);
-
-        if (duplicateContact) {
-          setError("A contact with the same name already exists");
-
-        } else if (duplicateMobileContact) {
-          setError("A contact with the same mobile number already exists");
-          return;
-        } else {
-          axios
-            .post('http://localhost:3001/users', values)
-            .then((response) => {
-              navigate('/', { replace: false });
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-
-          event.target.reset();
-        }
+        navigate("/", { replace: false });
       })
       .catch((error) => {
         console.error(error);
+        setError("An error occurred during account creation");
       });
   };
 
   //handle functions.....
   const handleLoginClick = () => {
-    navigate('/', { replace: false });
+    navigate("/", { replace: false });
   };
 
   const handleNameChange = (e) => {
@@ -64,30 +41,44 @@ function CreateAccount() {
   };
 
   return (
-    <div style={{ width: '300px', margin: '0 auto', marginTop: '200px' }}>
-      <h1 style={{ textAlign: 'center' }}>Create Account</h1>
+    <div style={{ width: "300px", margin: "0 auto", marginTop: "200px" }}>
+      <h1 style={{ textAlign: "center" }}>Create Account</h1>
       <Form name="createAccountForm" onFinish={onFinish}>
-        <Form.Item name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
+        <Form.Item
+          name="name"
+          rules={[{ required: true, message: "Please enter your name" }]}
+        >
           <Input placeholder="Name" onKeyDown={handleNameChange} />
         </Form.Item>
 
         <Form.Item
           name="mobile"
           rules={[
-            { required: true, message: 'Please enter your mobile number' },
-            { pattern: /^\d{10}$/, message: 'Please enter a valid mobile number' },
+            { required: true, message: "Please enter your mobile number" },
+            {
+              pattern: /^\d{10}$/,
+              message: "Please enter a valid mobile number",
+            },
           ]}
         >
           <Input placeholder="Mobile Number" onKeyDown={handleMobileChange} />
         </Form.Item>
-        <Form.Item name="address" rules={[{ required: true, message: 'Please enter your address' }]}>
+        <Form.Item
+          name="address"
+          rules={[{ required: true, message: "Please enter your address" }]}
+        >
           <Input placeholder="Address" />
         </Form.Item>
-        <Form.Item name="password" rules={[{ required: true, message: 'Please enter a password' }]}>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: "Please enter a password" }]}
+        >
           <Input.Password placeholder="Password" />
         </Form.Item>
 
-        {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+        {error && (
+          <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
+        )}
 
         <Form.Item>
           <Button type="primary" htmlType="submit" block>

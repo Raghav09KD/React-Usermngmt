@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { List, Modal, Button } from 'antd';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { List, Modal, Button } from "antd";
+import axios from "axios";
 
 function ViewDetails() {
   const [userDetails, setUserDetails] = useState([]);
@@ -9,7 +9,8 @@ function ViewDetails() {
 
   useEffect(() => {
     // Fetch user details from the server
-    axios.get('http://localhost:3001/users')
+    axios
+      .get("http://localhost:5000/ViewUsers")
       .then((response) => {
         setUserDetails(response.data);
       })
@@ -29,16 +30,22 @@ function ViewDetails() {
   };
 
   const handleDeleteUser = (user) => {
-    axios.delete(`http://localhost:3001/users/${user.mobile}`)
+    axios
+      .delete(`http://localhost:5000/users/${user.mobile}`)
       .then((response) => {
         // Remove the deleted user from the userDetails state
-        setUserDetails((prevUserDetails) => prevUserDetails.filter((u) => u.mobile !== user.mobile));
+        setUserDetails((prevUserDetails) =>
+          prevUserDetails.filter((u) => u.mobile !== user.mobile)
+        );
       })
       .catch((error) => {
         console.error(error);
       });
   };
-  
+
+  const handleUpdateUser = () => {
+    console.log('updating user');
+  };
 
   return (
     <div>
@@ -53,6 +60,10 @@ function ViewDetails() {
             </Button>
             <Button danger onClick={() => handleDeleteUser(user)}>
               Delete
+            </Button>
+
+            <Button type="dashed" onClick={() => handleUpdateUser(user)}>
+              Update
             </Button>
           </List.Item>
         )}
